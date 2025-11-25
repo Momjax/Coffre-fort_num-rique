@@ -2,6 +2,8 @@
 use Slim\Factory\AppFactory;
 use Medoo\Medoo;
 use App\Controller\FileController;
+use App\Controller\FolderController;
+use App\Controller\ShareController;
 use Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -69,14 +71,36 @@ if ($basePath !== '') {
 // Contrôleur
 // ---------------------------
 $fileController = new FileController($database);
+$folderController = new FolderController($database);
+$shareController = new ShareController($database);
 
 // ---------------------------
 // Routes
 // ---------------------------
+// Files
 $app->get('/files', [$fileController, 'list']);
 $app->get('/files/{id}', [$fileController, 'show']);
 $app->post('/files', [$fileController, 'upload']);
+$app->get('/files/{id}/download', [$fileController, 'download']);
 $app->delete('/files/{id}', [$fileController, 'delete']);
+$app->get('/stats', [$fileController, 'stats']);
+
+// Folders
+$app->get('/folders', [$folderController, 'list']);
+$app->get('/folders/{id}', [$folderController, 'show']);
+$app->post('/folders', [$folderController, 'create']);
+$app->put('/folders/{id}', [$folderController, 'update']);
+$app->delete('/folders/{id}', [$folderController, 'delete']);
+$app->get('/folders/{id}/files', [$folderController, 'getFiles']);
+
+// Shares
+$app->get('/shares', [$shareController, 'list']);
+$app->post('/shares', [$shareController, 'create']);
+$app->delete('/shares/{id}', [$shareController, 'delete']);
+
+// Public sharing
+$app->get('/s/{token}', [$shareController, 'showPublic']);
+$app->get('/s/{token}/download', [$shareController, 'downloadPublic']);
 
 // Route racine
 $app->get('/', function ($request, $response) {
@@ -85,8 +109,20 @@ $app->get('/', function ($request, $response) {
         'endpoints' => [
             'GET /files',
             'GET /files/{id}',
-            'POST /files',
+            'POST /files (upload + encrypt option)',
+            'GET /files/{id}/download',
             'DELETE /files/{id}',
+            'GET /stats',
+            'GET /folders',
+            'GET /folders/{id}',
+            'POST /folders',
+            'PUT /folders/{id}',
+            'DELETE /folders/{id}',
+            'GET /folders/{id}/files',
+            'GET /shares',
+            'POST /shares',
+            'DELETE /shares/{id}',
+            'GET /s/{token} (public)',
         ]
     ], JSON_PRETTY_PRINT));
     return $response->withHeader('Content-Type', 'application/json');

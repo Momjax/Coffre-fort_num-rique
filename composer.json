@@ -14,6 +14,7 @@
     "require": {
         "slim/slim": "4.12",
         "slim/psr7": "1.8",
-        "catfan/medoo": "2.2"
+        "catfan/medoo": "2.2",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

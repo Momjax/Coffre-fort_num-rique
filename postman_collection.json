@@ -1,0 +1,331 @@
+{
+  "info": {
+    "name": "Coffre-fort Numérique - Jour 2",
+    "description": "Collection Postman pour tester l'API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Files",
+      "item": [
+        {
+          "name": "Liste des fichiers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/files",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["files"]
+            }
+          }
+        },
+        {
+          "name": "Upload fichier simple",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "folder_id",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "encrypt",
+                  "value": "0",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost/files",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["files"]
+            }
+          }
+        },
+        {
+          "name": "Upload fichier chiffré",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "folder_id",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "encrypt",
+                  "value": "1",
+                  "type": "text",
+                  "description": "1 pour chiffrer"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost/files",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["files"]
+            }
+          }
+        },
+        {
+          "name": "Détails fichier",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/files/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["files", "1"]
+            }
+          }
+        },
+        {
+          "name": "Télécharger fichier",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/files/1/download",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["files", "1", "download"]
+            }
+          }
+        },
+        {
+          "name": "Supprimer fichier",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/files/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["files", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Folders",
+      "item": [
+        {
+          "name": "Liste des dossiers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/folders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["folders"]
+            }
+          }
+        },
+        {
+          "name": "Créer dossier",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Documents\",\n  \"parent_id\": null\n}"
+            },
+            "url": {
+              "raw": "http://localhost/folders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["folders"]
+            }
+          }
+        },
+        {
+          "name": "Détails dossier",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/folders/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["folders", "1"]
+            }
+          }
+        },
+        {
+          "name": "Modifier dossier",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Nouveau nom\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost/folders/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["folders", "1"]
+            }
+          }
+        },
+        {
+          "name": "Fichiers du dossier",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/folders/1/files",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["folders", "1", "files"]
+            }
+          }
+        },
+        {
+          "name": "Supprimer dossier",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/folders/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["folders", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shares",
+      "item": [
+        {
+          "name": "Liste des partages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/shares",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["shares"]
+            }
+          }
+        },
+        {
+          "name": "Créer partage",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"file_id\": 1,\n  \"expires_at\": \"2025-12-31 23:59:59\",\n  \"max_downloads\": 10\n}"
+            },
+            "url": {
+              "raw": "http://localhost/shares",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["shares"]
+            }
+          }
+        },
+        {
+          "name": "Page publique",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/s/TOKEN_ICI",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["s", "TOKEN_ICI"]
+            }
+          }
+        },
+        {
+          "name": "Téléchargement public",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/s/TOKEN_ICI/download",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["s", "TOKEN_ICI", "download"]
+            }
+          }
+        },
+        {
+          "name": "Supprimer partage",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/shares/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["shares", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stats",
+      "item": [
+        {
+          "name": "Statistiques",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/stats",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["stats"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

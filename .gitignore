@@ -1,0 +1,21 @@
+# Fichiers sensibles
+.env
+
+# Uploads et fichiers temporaires
+storage/uploads/*
+!storage/uploads/.gitkeep
+
+# Dépendances
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

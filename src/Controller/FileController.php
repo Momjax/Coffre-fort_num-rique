@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Model\FileRepository;
+use App\Service\EncryptionService;
 use Medoo\Medoo;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -12,11 +13,16 @@ class FileController
 {
     private FileRepository $files;
     private string $uploadDir;
+    private EncryptionService $encryption;
 
-    public function __construct(Medoo $db)
+    public function __construct(Medoo $db, ?EncryptionService $encryption = null)
     {
         $this->files = new FileRepository($db);
         $this->uploadDir = __DIR__ . '/../../storage/uploads';
+        
+        // Clé par défaut (à changer en production, la mettre dans config)
+        $encryptionKey = $_ENV['ENCRYPTION_KEY'] ?? 'changez-cette-cle-secrete-en-production';
+        $this->encryption = $encryption ?? new EncryptionService($encryptionKey);
     }
 
     // GET /files
@@ -76,13 +82,40 @@ class FileController
         $mimeType = $file->getClientMediaType();
         $storedName = uniqid('f_', true) . '_' . $originalName;
 
-        $file->moveTo($this->uploadDir . DIRECTORY_SEPARATOR . $storedName);
+        // Récupérer le folder_id et l'option de chiffrement
+        $parsedBody = $request->getParsedBody();
+        $folderId = isset($parsedBody['folder_id']) && $parsedBody['folder_id'] !== '' 
+            ? (int)$parsedBody['folder_id'] 
+            : null;
+        $encrypt = isset($parsedBody['encrypt']) && $parsedBody['encrypt'] === '1';
+
+        $targetPath = $this->uploadDir . DIRECTORY_SEPARATOR . $storedName;
+
+        // Si chiffrement demandé
+        if ($encrypt) {
+            $tempPath = $this->uploadDir . DIRECTORY_SEPARATOR . 'temp_' . $storedName;
+            $file->moveTo($tempPath);
+            
+            // Chiffrer le fichier
+            if (!$this->encryption->encryptFile($tempPath, $targetPath)) {
+                unlink($tempPath);
+                $response->getBody()->write(json_encode(['error' => 'Encryption failed']));
+                return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
+            }
+            
+            unlink($tempPath);
+            $storedName .= '.enc'; // Marquer comme chiffré
+        } else {
+            $file->moveTo($targetPath);
+        }
 
         $id = $this->files->create([
             'filename'    => $originalName,
-            'stored_name' => $storedName,
+            'stored_name' => $encrypt ? $storedName : $storedName,
             'size'        => $size,
             'mime_type'   => $mimeType,
+            'folder_id'   => $folderId,
+            'is_encrypted' => $encrypt ? 1 : 0,
             'uploaded_at' => date('Y-m-d H:i:s')
         ]);
 
@@ -112,9 +145,26 @@ class FileController
             return $response->withStatus(500);
         }
 
-        $stream = fopen($path, 'rb');
-        $response->getBody()->write(stream_get_contents($stream));
-        fclose($stream);
+        // Si le fichier est chiffré, le déchiffrer avant de l'envoyer
+        $isEncrypted = isset($file['is_encrypted']) && $file['is_encrypted'] == 1;
+        
+        if ($isEncrypted) {
+            $tempPath = $this->uploadDir . DIRECTORY_SEPARATOR . 'temp_download_' . uniqid();
+            
+            if (!$this->encryption->decryptFile($path, $tempPath)) {
+                $response->getBody()->write('Decryption failed');
+                return $response->withStatus(500);
+            }
+            
+            $stream = fopen($tempPath, 'rb');
+            $response->getBody()->write(stream_get_contents($stream));
+            fclose($stream);
+            unlink($tempPath);
+        } else {
+            $stream = fopen($path, 'rb');
+            $response->getBody()->write(stream_get_contents($stream));
+            fclose($stream);
+        }
 
         return $response
             ->withHeader('Content-Type', $file['mime_type'])
