@@ -3,6 +3,7 @@
 ## Backend PHP/Slim
 
 ### CRUD Dossiers
+
 - [x] Modèle `FolderRepository` avec toutes les méthodes CRUD
 - [x] Contrôleur `FolderController` avec 6 endpoints
 - [x] Support de la hiérarchie (parent_id)
@@ -14,6 +15,7 @@
 - [x] Route GET `/folders/{id}/files` - Fichiers du dossier
 
 ### Upload chiffré v1
+
 - [x] Service `EncryptionService` (AES-256-CBC)
 - [x] Méthode `encryptFile()` pour chiffrer
 - [x] Méthode `decryptFile()` pour déchiffrer
@@ -24,17 +26,20 @@
 - [x] Configuration via `ENCRYPTION_KEY` dans .env
 
 ### Quotas
+
 - [x] Vérification du quota lors de l'upload (déjà implémenté Jour 1)
 - [x] Endpoint `/stats` pour visualiser l'utilisation
 - [x] Calcul de la taille totale des fichiers
 
 ### Téléchargement
+
 - [x] Route GET `/files/{id}/download` mise à jour
 - [x] Support du déchiffrement transparent
 - [x] Headers corrects (Content-Type, Content-Disposition)
 - [x] Gestion des fichiers temporaires
 
 ### Partage public
+
 - [x] Modèle `ShareRepository`
 - [x] Contrôleur `ShareController`
 - [x] Table `shares` avec token, expiration, max_downloads
@@ -51,6 +56,7 @@
 ## Frontend Web
 
 ### Page publique
+
 - [x] Design moderne avec Bootstrap 5
 - [x] Section Hero avec gradient
 - [x] Section Features avec 6 fonctionnalités
@@ -63,6 +69,7 @@
 - [x] Animations et effets hover
 
 ### Page de partage /s/{token}
+
 - [x] Interface élégante et moderne
 - [x] Affichage nom du fichier
 - [x] Affichage taille du fichier
@@ -76,6 +83,7 @@
 ## Base de données
 
 ### Migrations SQL
+
 - [x] Script `migration_day2.sql`
 - [x] Table `folders` avec hiérarchie
 - [x] Table `shares` avec token et contraintes
@@ -88,6 +96,7 @@
 ## Documentation
 
 ### Fichiers de documentation
+
 - [x] `README_DAY2.md` - Documentation complète
 - [x] `QUICKSTART.md` - Guide de démarrage rapide
 - [x] `.env.example` mis à jour avec ENCRYPTION_KEY
@@ -95,12 +104,14 @@
 - [x] Commentaires dans le code
 
 ### Scripts de test
+
 - [x] `test_api.php` - Script de test automatique
 - [x] `demo_encryption.php` - Démonstration du chiffrement
 
 ## Configuration & Sécurité
 
 ### Environnement
+
 - [x] Variable `ENCRYPTION_KEY` dans .env
 - [x] Dossier `storage/uploads/` créé
 - [x] `.gitignore` mis à jour
@@ -108,6 +119,7 @@
 - [x] Permissions sur les dossiers
 
 ### Sécurité
+
 - [x] Clé de chiffrement configurable
 - [x] Tokens de partage sécurisés (random_bytes)
 - [x] Validation des entrées utilisateur
@@ -117,6 +129,7 @@
 ## Routes API
 
 ### Fichiers (6 routes)
+
 - [x] GET `/files`
 - [x] GET `/files/{id}`
 - [x] POST `/files`
@@ -125,6 +138,7 @@
 - [x] GET `/stats`
 
 ### Dossiers (6 routes)
+
 - [x] GET `/folders`
 - [x] GET `/folders/{id}`
 - [x] POST `/folders`
@@ -133,6 +147,7 @@
 - [x] GET `/folders/{id}/files`
 
 ### Partages (5 routes)
+
 - [x] GET `/shares`
 - [x] POST `/shares`
 - [x] DELETE `/shares/{id}`
@@ -144,16 +159,19 @@
 ## JavaFX (Jour 3+)
 
 ### Scaffolding
+
 - [ ] Projet Maven/Gradle
 - [ ] Structure MVC
 - [ ] Dépendances (JavaFX, HTTP client)
 
 ### Écran de login
+
 - [ ] Interface FXML
 - [ ] Contrôleur
 - [ ] Validation
 
 ### Liste dossiers/fichiers
+
 - [ ] TreeView pour dossiers
 - [ ] TableView pour fichiers
 - [ ] Actions (CRUD)
@@ -161,6 +179,7 @@
 ## Tests manuels suggérés
 
 ### Test 1: Upload et chiffrement
+
 ```bash
 curl -X POST http://localhost/files \
   -F "file=@test.pdf" \
@@ -168,11 +187,12 @@ curl -X POST http://localhost/files \
 ```
 
 ### Test 2: Créer dossier et organiser
+
 ```bash
 curl -X POST http://localhost/folders \
   -H "Content-Type: application/json" \
   -d '{"name":"Confidentiel"}'
-  
+
 curl -X POST http://localhost/files \
   -F "file=@secret.doc" \
   -F "folder_id=1" \
@@ -180,6 +200,7 @@ curl -X POST http://localhost/files \
 ```
 
 ### Test 3: Partage public
+
 ```bash
 curl -X POST http://localhost/shares \
   -H "Content-Type: application/json" \
@@ -191,6 +212,7 @@ Puis visiter l'URL retournée dans un navigateur.
 ## Améliorations futures
 
 ### Jour 3+
+
 - [ ] Authentification JWT
 - [ ] Multi-utilisateurs
 - [ ] Permissions par dossier

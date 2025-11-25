@@ -5,29 +5,35 @@
 ### Fichiers Backend (PHP)
 
 **Modèles (Repositories)**
+
 - ✅ `src/Model/FolderRepository.php` - CRUD dossiers
 - ✅ `src/Model/ShareRepository.php` - Gestion des partages
 
 **Contrôleurs**
+
 - ✅ `src/Controller/FolderController.php` - 6 endpoints
 - ✅ `src/Controller/ShareController.php` - 5 endpoints + page HTML
 - ✅ `src/Controller/FileController.php` - Mis à jour avec chiffrement
 
 **Services**
+
 - ✅ `src/Service/EncryptionService.php` - Chiffrement AES-256-CBC
 
 ### Fichiers Frontend
 
 **Pages Web**
+
 - ✅ `public/index.html` - Page d'accueil moderne avec Bootstrap
 - ✅ Page de partage intégrée dans ShareController
 
 ### Configuration
 
 **Base de données**
+
 - ✅ `database/migration_day2.sql` - Tables folders et shares
 
 **Environnement**
+
 - ✅ `.env.example` - Mis à jour avec ENCRYPTION_KEY
 - ✅ `.gitignore` - Protection des fichiers sensibles
 - ✅ `storage/uploads/.gitkeep` - Dossier de stockage
@@ -35,12 +41,14 @@
 ### Documentation
 
 **Guides complets**
+
 - ✅ `README_DAY2.md` - Documentation détaillée
 - ✅ `QUICKSTART.md` - Guide de démarrage rapide
 - ✅ `ARCHITECTURE.md` - Schémas et explications
 - ✅ `CHECKLIST_DAY2.md` - Liste de vérification complète
 
 **Outils de test**
+
 - ✅ `test_api.php` - Script de test automatique
 - ✅ `demo_encryption.php` - Démonstration du chiffrement
 - ✅ `postman_collection.json` - Collection Postman complète
@@ -106,17 +114,20 @@ php demo_encryption.php
 ### ✅ Backend
 
 1. **CRUD Dossiers complet**
+
    - Créer, lire, modifier, supprimer
    - Hiérarchie parent/enfant
    - Lister fichiers par dossier
 
 2. **Upload avec chiffrement**
+
    - Option `encrypt=1` lors de l'upload
    - Chiffrement AES-256-CBC avec IV aléatoire
    - Déchiffrement automatique au téléchargement
    - Marqueur `.enc` pour fichiers chiffrés
 
 3. **Gestion des quotas**
+
    - Vérification lors de l'upload
    - Endpoint `/stats` pour visualiser
 
@@ -130,6 +141,7 @@ php demo_encryption.php
 ### ✅ Frontend
 
 1. **Page d'accueil moderne**
+
    - Design Bootstrap 5 responsive
    - Sections : Hero, Features, About, Stats, Demo
    - Navigation et footer complets
@@ -220,6 +232,7 @@ curl -X POST http://localhost:8000/shares \
 ## 🎓 Prochaines étapes (Jour 3+)
 
 Le Jour 3 ajoutera :
+
 - [ ] Client JavaFX avec interface graphique
 - [ ] Authentification utilisateur (JWT)
 - [ ] Gestion multi-utilisateurs
@@ -229,6 +242,7 @@ Le Jour 3 ajoutera :
 ## 📚 Documentation complète
 
 Pour plus de détails, consultez :
+
 - `README_DAY2.md` - Documentation complète
 - `QUICKSTART.md` - Guide rapide
 - `ARCHITECTURE.md` - Schémas techniques
@@ -237,6 +251,7 @@ Pour plus de détails, consultez :
 ## 🆘 Support
 
 En cas de problème :
+
 1. Vérifier que MySQL est démarré
 2. Vérifier la configuration `.env`
 3. Vérifier les permissions sur `storage/uploads/`
@@ -247,6 +262,7 @@ En cas de problème :
 **🎉 Félicitations ! Toutes les fonctionnalités du Jour 2 sont implémentées.**
 
 Le backend est maintenant prêt avec :
+
 - ✅ CRUD dossiers
 - ✅ Upload avec chiffrement
 - ✅ Gestion des quotas

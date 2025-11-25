@@ -5,20 +5,24 @@
 ### Backend (PHP/Slim)
 
 ✅ **CRUD Dossiers**
+
 - Création, lecture, modification, suppression de dossiers
 - Hiérarchie de dossiers (parent_id)
 - Liste des fichiers par dossier
 
 ✅ **Upload avec chiffrement**
+
 - Option de chiffrement AES-256-CBC lors de l'upload
 - Déchiffrement automatique lors du téléchargement
 - Service `EncryptionService` réutilisable
 
 ✅ **Gestion des quotas**
+
 - Vérification du quota lors de l'upload
 - Endpoint `/stats` pour visualiser l'utilisation
 
 ✅ **Partage public**
+
 - Génération de liens publics `/s/{token}`
 - Expiration configurable
 - Limitation du nombre de téléchargements
@@ -27,11 +31,13 @@
 ### Frontend Web
 
 ✅ **Page d'accueil publique**
+
 - Design moderne avec Bootstrap 5
 - Présentation des fonctionnalités
 - Page responsive et professionnelle
 
 ✅ **Page de partage public**
+
 - Interface élégante pour télécharger les fichiers partagés
 - Affichage des informations (taille, téléchargements restants)
 - Expiration visible
@@ -70,16 +76,19 @@ mysql -u votre_utilisateur -p votre_base < database/migration_day2.sql
 Ou via phpMyAdmin, importez le fichier `database/migration_day2.sql`.
 
 ### Tables ajoutées :
+
 - `folders` : Gestion des dossiers avec hiérarchie
 - `shares` : Liens de partage publics avec token
 
 ### Colonnes ajoutées à `files` :
+
 - `folder_id` : Lien vers le dossier parent
 - `is_encrypted` : Indicateur de chiffrement
 
 ## 🚀 API Endpoints
 
 ### Fichiers
+
 - `GET /files` - Liste tous les fichiers
 - `GET /files/{id}` - Détails d'un fichier
 - `POST /files` - Upload (form-data: file, folder_id, encrypt)
@@ -88,6 +97,7 @@ Ou via phpMyAdmin, importez le fichier `database/migration_day2.sql`.
 - `GET /stats` - Statistiques (quota, taille totale)
 
 ### Dossiers
+
 - `GET /folders` - Liste des dossiers
 - `GET /folders/{id}` - Détails d'un dossier
 - `POST /folders` - Créer (JSON: {name, parent_id})
@@ -96,6 +106,7 @@ Ou via phpMyAdmin, importez le fichier `database/migration_day2.sql`.
 - `GET /folders/{id}/files` - Fichiers du dossier
 
 ### Partages
+
 - `GET /shares` - Liste des partages
 - `POST /shares` - Créer (JSON: {file_id, expires_at, max_downloads})
 - `DELETE /shares/{id}` - Supprimer
@@ -134,6 +145,7 @@ curl -X POST http://localhost/shares \
 ```
 
 Réponse :
+
 ```json
 {
   "message": "Share created",
@@ -151,7 +163,7 @@ La clé de chiffrement peut être configurée via la variable d'environnement :
 ENCRYPTION_KEY=votre-cle-secrete-tres-longue-et-complexe
 ```
 
-**⚠️ Important :** Changez cette clé en production et conservez-la précieusement. 
+**⚠️ Important :** Changez cette clé en production et conservez-la précieusement.
 Sans cette clé, vous ne pourrez plus déchiffrer vos fichiers !
 
 ## 🎨 Interface Web
@@ -190,14 +202,17 @@ Sans cette clé, vous ne pourrez plus déchiffrer vos fichiers !
 ## 💡 Notes de développement
 
 ### Chiffrement
-Le service `EncryptionService` utilise AES-256-CBC avec un IV aléatoire pour chaque fichier. 
+
+Le service `EncryptionService` utilise AES-256-CBC avec un IV aléatoire pour chaque fichier.
 L'IV est stocké avec les données chiffrées (format: `base64(iv::encrypted_data)`).
 
 ### Partages publics
+
 Les tokens sont générés avec `random_bytes(16)` convertis en hexadécimal (32 caractères).
 Le système vérifie automatiquement l'expiration et le nombre de téléchargements.
 
 ### Organisation des fichiers
+
 Les fichiers physiques sont stockés dans `storage/uploads/` avec un nom unique généré par `uniqid()`.
 Les fichiers chiffrés ont l'extension `.enc` ajoutée.
 

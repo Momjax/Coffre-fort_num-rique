@@ -104,26 +104,26 @@ curl http://localhost/stats
 ✅ Partage public avec token sécurisé  
 ✅ Expiration et limitation de téléchargements  
 ✅ Déchiffrement automatique lors du téléchargement  
-✅ Interface web Bootstrap responsive  
+✅ Interface web Bootstrap responsive
 
 ## Structure des URLs
 
-| Endpoint | Méthode | Description |
-|----------|---------|-------------|
-| `/files` | GET | Liste des fichiers |
-| `/files` | POST | Upload fichier |
-| `/files/{id}` | GET | Détails fichier |
-| `/files/{id}/download` | GET | Télécharger |
-| `/files/{id}` | DELETE | Supprimer |
-| `/folders` | GET | Liste dossiers |
-| `/folders` | POST | Créer dossier |
-| `/folders/{id}` | GET/PUT/DELETE | CRUD dossier |
-| `/folders/{id}/files` | GET | Fichiers du dossier |
-| `/shares` | GET/POST | Gérer partages |
-| `/shares/{id}` | DELETE | Supprimer partage |
-| `/s/{token}` | GET | Page publique |
-| `/s/{token}/download` | GET | Téléchargement public |
-| `/stats` | GET | Statistiques |
+| Endpoint               | Méthode        | Description           |
+| ---------------------- | -------------- | --------------------- |
+| `/files`               | GET            | Liste des fichiers    |
+| `/files`               | POST           | Upload fichier        |
+| `/files/{id}`          | GET            | Détails fichier       |
+| `/files/{id}/download` | GET            | Télécharger           |
+| `/files/{id}`          | DELETE         | Supprimer             |
+| `/folders`             | GET            | Liste dossiers        |
+| `/folders`             | POST           | Créer dossier         |
+| `/folders/{id}`        | GET/PUT/DELETE | CRUD dossier          |
+| `/folders/{id}/files`  | GET            | Fichiers du dossier   |
+| `/shares`              | GET/POST       | Gérer partages        |
+| `/shares/{id}`         | DELETE         | Supprimer partage     |
+| `/s/{token}`           | GET            | Page publique         |
+| `/s/{token}/download`  | GET            | Téléchargement public |
+| `/stats`               | GET            | Statistiques          |
 
 ## Troubleshooting
 
@@ -156,6 +156,7 @@ chmod 777 storage/uploads
 ## Prochaines étapes
 
 Le Jour 3 ajoutera :
+
 - Client JavaFX avec interface graphique
 - Authentification utilisateur
 - Gestion des permissions
